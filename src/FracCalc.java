@@ -1,14 +1,20 @@
-public class FracCalc {
+import java.util.Scanner;
 
+public class FracCalc {
+	
     /**
      * Prompts user for input, passes that input to produceAnswer, then outputs the result.
      * @param args - unused
      */
+
     public static void main(String[] args) 
     {
         // TODO: Read the input from the user and call produceAnswer with an equation
         // Checkpoint 1: Create a Scanner, read one line of input, pass that input to produceAnswer, print the result.
         // Checkpoint 2: Accept user input multiple times.
+    	Scanner console = new Scanner(System.in);
+    	String input = console.nextLine();
+    	System.out.println(produceAnswer(input));
     }
     
     /**
@@ -18,8 +24,14 @@ public class FracCalc {
      * @return the result of the fraction after it has been calculated.
      *      Example: return ==> "1_1/4"
      */
-    public static String produceAnswer(String input)
-    { 
+    public static String produceAnswer(String input){ 
+    	Double end = 0.0;
+    	Double current = 0.0;
+    	Double hold = 0.0;
+    	String op = "";
+    	String second = "";
+    	String currentString = "";
+    	String holdString = "";
         // TODO: Implement this function to produce the solution to the input
         // Checkpoint 1: Return the second operand.  Example "4/5 * 1_2/4" returns "1_2/4".
         // Checkpoint 2: Return the second operand as a string representing each part.
@@ -29,8 +41,68 @@ public class FracCalc {
         //               Note: Answer does not need to be reduced, but it must be correct.
         // Final project: All answers must be reduced.
         //               Example "4/5 * 1_2/4" returns "1_1/5".
-        
-        return "";
+    	String[] array = input.split(" ");
+        for (String i : array) {
+        	if (!i.equals("+") && !i.equals("-") && !i.equals("*") && !i.equals("/")) {
+        		currentString = i;
+        	}
+        	else if (i.equals("+")) {
+        		op = "+";
+        	}
+        	else if (i.equals("-")) {
+        		op = "-";
+        	}
+        	else if (i.equals("*")) {
+        		op = "*";
+        	}
+        	else if (i.equals("/")) {
+        		op = "/";
+        	}
+        	if (!currentString.equals("") && !op.equals("") && holdString.equals("")) {
+        		holdString = currentString;
+        	}
+        	/*
+        	if (!i.equals("+") && !i.equals("-") && !i.equals("*") && !i.equals("/") && !i.equals("_")) {
+        		current = Double.parseDouble(i);
+        	}
+        	else if (i.equals("+")) {
+        		op = "+";
+        	}
+        	else if (i.equals("-")) {
+        		op = "-";
+        	}
+        	else if (i.equals("*")) {
+        		op = "*";
+        	}
+        	else if (i.equals("/")) {
+        		op = "/";
+        	}
+        	if (current != 0.0 && !op.equals("") && hold == 0.0) {
+        		hold = current;
+        	}
+        	if (current != 0.0 && !op.equals("") && hold != 0.0) {
+        		if(op.equals("+")) {
+        			end += current + hold;
+        			current = 0.0;
+        			hold = 0.0;
+        			op = "";
+        		}
+        		else if (op.equals("-")) {
+        			end += hold - current;
+        			current = 0.0;
+        			hold = 0.0;
+        			op = "";
+        		}
+        		else if(op.equals("*")) {
+        			end += current * hold;
+        			current = 0.0;
+        			hold = 0.0;
+        			op = "";
+        		}
+        	}
+        	*/
+        }
+        return currentString;
     }
 
     // TODO: Fill in the space below with helper methods
