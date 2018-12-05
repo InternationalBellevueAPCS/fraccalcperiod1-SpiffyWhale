@@ -46,18 +46,6 @@ public class FracCalc {
         	if (!i.equals("+") && !i.equals("-") && !i.equals("*") && !i.equals("/")) {
         		currentString = i;
         	}
-        	else if (i.equals("+")) {
-        		op = "+";
-        	}
-        	else if (i.equals("-")) {
-        		op = "-";
-        	}
-        	else if (i.equals("*")) {
-        		op = "*";
-        	}
-        	else if (i.equals("/")) {
-        		op = "/";
-        	}
         	if (!currentString.equals("") && !op.equals("") && holdString.equals("")) {
         		holdString = currentString;
         	}
