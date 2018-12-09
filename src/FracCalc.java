@@ -1,12 +1,9 @@
 import java.util.Scanner;
-
 public class FracCalc {
-	
     /**
      * Prompts user for input, passes that input to produceAnswer, then outputs the result.
      * @param args - unused
      */
-
     public static void main(String[] args) 
     {
         // TODO: Read the input from the user and call produceAnswer with an equation
@@ -14,9 +11,12 @@ public class FracCalc {
         // Checkpoint 2: Accept user input multiple times.
     	Scanner console = new Scanner(System.in);
     	String input = console.nextLine();
-    	System.out.println(produceAnswer(input));
+    	while (!input.equals("quit")) {
+    		System.out.println(produceAnswer(input));
+    		input = console.nextLine();
+    	}
+    	console.close();
     }
-    
     /**
      * produceAnswer - This function takes a String 'input' and produces the result.
      * @param input - A fraction string that needs to be evaluated.  For your program, this will be the user input.
@@ -25,13 +25,18 @@ public class FracCalc {
      *      Example: return ==> "1_1/4"
      */
     public static String produceAnswer(String input){ 
-    	Double end = 0.0;
-    	Double current = 0.0;
-    	Double hold = 0.0;
-    	String op = "";
-    	String second = "";
-    	String currentString = "";
-    	String holdString = "";
+    	int top1 = 0;
+    	int num1 = 0;
+    	int bot1 = 0;
+    	int top2 = 0;
+    	int num2 = 0;
+    	int bot2 = 0;
+    	int ftop = 0;
+    	int fbot = 0;
+    	int fnum = 0;
+    	String op = "0";
+    	String whole1 = "0";
+    	String whole2 = "0";
         // TODO: Implement this function to produce the solution to the input
         // Checkpoint 1: Return the second operand.  Example "4/5 * 1_2/4" returns "1_2/4".
         // Checkpoint 2: Return the second operand as a string representing each part.
@@ -41,60 +46,89 @@ public class FracCalc {
         //               Note: Answer does not need to be reduced, but it must be correct.
         // Final project: All answers must be reduced.
         //               Example "4/5 * 1_2/4" returns "1_1/5".
-    	String[] array = input.split(" ");
-        for (String i : array) {
-        	if (!i.equals("+") && !i.equals("-") && !i.equals("*") && !i.equals("/")) {
-        		currentString = i;
-        	}
-        	if (!currentString.equals("") && !op.equals("") && holdString.equals("")) {
-        		holdString = currentString;
-        	}
-        	/*
-        	if (!i.equals("+") && !i.equals("-") && !i.equals("*") && !i.equals("/") && !i.equals("_")) {
-        		current = Double.parseDouble(i);
-        	}
-        	else if (i.equals("+")) {
-        		op = "+";
-        	}
-        	else if (i.equals("-")) {
-        		op = "-";
-        	}
-        	else if (i.equals("*")) {
-        		op = "*";
-        	}
-        	else if (i.equals("/")) {
-        		op = "/";
-        	}
-        	if (current != 0.0 && !op.equals("") && hold == 0.0) {
-        		hold = current;
-        	}
-        	if (current != 0.0 && !op.equals("") && hold != 0.0) {
-        		if(op.equals("+")) {
-        			end += current + hold;
-        			current = 0.0;
-        			hold = 0.0;
-        			op = "";
-        		}
-        		else if (op.equals("-")) {
-        			end += hold - current;
-        			current = 0.0;
-        			hold = 0.0;
-        			op = "";
-        		}
-        		else if(op.equals("*")) {
-        			end += current * hold;
-        			current = 0.0;
-        			hold = 0.0;
-        			op = "";
-        		}
-        	}
-        	*/
-        }
-        return currentString;
-    }
+    	String[] ope = input.split(" ");
+    	whole1 = ope[0];
+    	whole2 = ope[2];
+    	if (whole1.indexOf('/') == -1) {
+    		whole1 += "_0/1";
+    	}
+    	if (whole1.indexOf('_') == -1) {
+    		whole1 = "0_" + whole1;
+    	}
+    	if (whole2.indexOf('/') == -1) {
+    		whole2 += "_0/1";
+    	}
+    	if (whole2.indexOf('_') == -1) {
+    		whole2 = "0_" + whole2;
+    	}
+    	int neg1 = 1;
+    	int neg2 = 1;
+    	if (whole1.substring(0, 1).equals("-")) {
+    		whole1 = whole1.substring(1);
+    		neg1 = -1;
+    	}
+    	num1 = neg1 * Integer.parseInt(whole1.split("_")[0]);
+    	top1 = neg1 * Integer.parseInt((whole1.split("_")[1].split("/")[0]));
+    	bot1 = Integer.parseInt((whole1.split("_")[1].split("/")[1]));
+    	if (whole2.substring(0, 1).equals("-")) {
+    		whole2 = whole2.substring(1);
+    		neg2 = -1;
+    	}
+    	num2 = neg2 * Integer.parseInt(whole2.split("_")[0]);
+    	top2 = neg2 * Integer.parseInt((whole2.split("_")[1].split("/")[0]));
+    	bot2 = Integer.parseInt((whole2.split("_")[1].split("/")[1]));
+    	op = ope[1];
+    	top1 += num1 * bot1;
+    	top2 += num2 * bot2;
+    	if (op.equals("/")) {
+    		ftop = top1 * bot2;
+    		System.out.println(ftop);
+    		fbot = top2 * bot1;
+    		System.out.println(fbot);
+    	}
+    	else {
+	    	top1 = top1 * bot2;
+	    	top2 = top2 * bot1;
+	    	fbot = bot1 * bot2;
+	    	
+	    	if (op.equals("+")) {
+	    		ftop = top1 + top2;
+	    	}
+	    	else if (op.equals("-")) {
+	    		ftop = top1 - top2;
+	    	}
+	    	else if (op.equals("*")) {
+	    		ftop = (top1 * top2)/fbot;
+	    	}
 
-    // TODO: Fill in the space below with helper methods
-    
+    	}
+    	return answerMachine(ftop, fbot, fnum);    	
+    }
+    /*
+     * answerMachine was designed to simplify the answer and to clean up the code in the main specifically to check the grading boxes for simplification
+     */
+    public static String answerMachine(int ftop, int fbot, int fnum) {
+		int div = greatestCommonDivisor(ftop,fbot);
+    	fbot /= div;
+    	ftop /= div;
+    	fnum = ftop / fbot;
+    	if (ftop % fbot == 0) {
+	    	return String.valueOf(fnum);
+    	}
+    	else if (fnum != 0) {
+	    	ftop = ftop % fbot;
+	    	if (String.valueOf(fnum).substring(0,1).equals("-") && ftop != 0) {
+	    		ftop *= -1;
+	    	}
+	    	return String.valueOf(fnum) + "_" + String.valueOf(ftop) + "/" + String.valueOf(fbot);
+    	}
+    	else {
+    		if (String.valueOf(fnum).substring(0,1).equals("-") && ftop != 0) {
+        		ftop *= -1;
+        	}
+        	return String.valueOf(ftop) + "/" + String.valueOf(fbot);
+    	}
+    }
     /**
      * greatestCommonDivisor - Find the largest integer that evenly divides two integers.
      *      Use this helper method in the Final Checkpoint to reduce fractions.
@@ -116,7 +150,6 @@ public class FracCalc {
         }
         return max;
     }
-    
     /**
      * leastCommonMultiple - Find the smallest integer that can be evenly divided by two integers.
      *      Use this helper method in Checkpoint 3 to evaluate expressions.
